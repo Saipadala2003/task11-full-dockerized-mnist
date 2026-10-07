@@ -1,0 +1,14 @@
+# Task 11 - Full Application Containerization
+docker --version
+docker info
+docker compose build
+docker compose up -d
+docker compose ps
+curl.exe http://127.0.0.1:5000/health
+curl.exe -X POST "http://127.0.0.1:5000/predict" -F "file=@7.png"
+python test_app.py
+docker stats --no-stream task11-flask-api task11-streamlit-ui
+docker compose logs --tail=100 flask-api
+docker compose logs --tail=100 streamlit-ui
+docker compose exec streamlit-ui python -c "import urllib.request; print(urllib.request.urlopen('http://flask-api:5000/health').read().decode())"
+docker compose down
