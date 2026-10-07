@@ -1,0 +1,30 @@
+services:
+  flask-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    image: task11-flask-api:latest
+    container_name: task11-flask-api
+    ports:
+      - "5000:5000"
+    networks:
+      - task11-network
+
+  streamlit-ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    image: task11-streamlit-ui:latest
+    container_name: task11-streamlit-ui
+    environment:
+      FLASK_API_URL: http://flask-api:5000
+    depends_on:
+      - flask-api
+    ports:
+      - "8501:8501"
+    networks:
+      - task11-network
+
+networks:
+  task11-network:
+    driver: bridge
